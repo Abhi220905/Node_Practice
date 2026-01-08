@@ -1,7 +1,9 @@
 const express = require('express')
+const crypto = require('crypto')
+
 const app = express()
 
-app.set("view engine", "ejs")
+// app.set("view engine", "ejs")
 require("dotenv").config()
 
 const PORT = process.env.PORT || 5000
@@ -15,6 +17,7 @@ app.get('/api', (req, res) => {
     res.send("Server Running")
 })
 
+let arr = [];
 
 // send data in postman 
 app.get("/api/user", (req, res) => {
@@ -23,18 +26,16 @@ app.get("/api/user", (req, res) => {
         records: arr
     })
 })
-
-
+ 
 //receive data from the Postman
 
-let arr = [];
 app.post("/api/user", (req, res) => {
     // console.log(req.body)  // (undefined) error -> bcz server cant be understand which type of data are sending 
     // res.send(req.body)  
     // res.send("Inserted")
 
-    const {Name , Email} = req.body; //chahe jitna hi data ho , jitna data pass karenge utna hi data jayega; 
-    arr.push({Name, Email})
+    const { Name, Email } = req.body; //chahe jitna hi data ho , jitna data pass karenge utna hi data jayega; 
+    arr.push({ Name, Email, id:crypto.randomUUID() })
     // res.send(arr)
 
     // Self Pass Obj
