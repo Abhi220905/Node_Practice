@@ -46,4 +46,22 @@ app.post("/api/user", (req, res) => {
 })
 
 
+///// Delete APi
+
+app.delete("/api/user/:userId",(req,res)=>{
+    // console.log(req.params)
+    // res.send(req.params.userId) 
+    const {userId} = req.params // DeStructuring
+   const filterData = arr.filter((ele)=>{
+    return ele.id !== userId 
+
+   })
+   arr = filterData
+   res.send({
+    success: true,
+    message: "user has been deleted"
+   }) 
+})
+
+
 app.listen(PORT, () => console.log(`server is connected http://localhost:${PORT}/api`))
