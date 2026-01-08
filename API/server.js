@@ -19,15 +19,16 @@ app.get('/api', (req, res) => {
 
 let arr = [];
 
-// send data in postman 
+// insert data
 app.get("/api/user", (req, res) => {
     res.send({
         success: true,
         records: arr
     })
 })
- 
+
 //receive data from the Postman
+// get data
 
 app.post("/api/user", (req, res) => {
     // console.log(req.body)  // (undefined) error -> bcz server cant be understand which type of data are sending 
@@ -35,7 +36,7 @@ app.post("/api/user", (req, res) => {
     // res.send("Inserted")
 
     const { Name, Email } = req.body; //chahe jitna hi data ho , jitna data pass karenge utna hi data jayega; 
-    arr.push({ Name, Email, id:crypto.randomUUID() })
+    arr.push({ Name, Email, id: crypto.randomUUID() })
     // res.send(arr)
 
     // Self Pass Obj
@@ -48,19 +49,37 @@ app.post("/api/user", (req, res) => {
 
 ///// Delete APi
 
-app.delete("/api/user/:userId",(req,res)=>{
+app.delete("/api/user/:userId", (req, res) => {
     // console.log(req.params)
     // res.send(req.params.userId) 
-    const {userId} = req.params // DeStructuring
-   const filterData = arr.filter((ele)=>{
-    return ele.id !== userId 
+    const { userId } = req.params // DeStructuring
+    const filterData = arr.filter((ele) => {
+        return ele.id !== userId
 
-   })
-   arr = filterData
-   res.send({
-    success: true,
-    message: "user has been deleted"
-   }) 
+    })
+    arr = filterData
+    res.send({
+        success: true,
+        message: "user has been deleted"
+    })
+})
+
+
+//// Update API
+
+app.put("/api/user", (req, res) => {
+    const { id } = req.query
+    const { Name, Email } = req.body
+
+    const index = arr.findIndex(ele => ele.id === id)
+    if (index != -1) {
+        arr[index] = { Name, Email, id }
+    }
+    res.send({
+        success: true,
+        message: "user has been updated"
+    })
+
 })
 
 
