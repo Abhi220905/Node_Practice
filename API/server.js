@@ -27,6 +27,15 @@ app.get("/api/user", (req, res) => {
     })
 })
 
+// get single data
+app.get("/api/user/:id", (req, res) => {
+    const user = arr.find(ele=> ele.id === req.params.id)
+    res.send({
+        success: true,
+        records: user
+    })
+})
+
 //receive data from the Postman
 // get data
 
