@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 5000
 app.use(express.json()) // row data (Obj format)
 app.use(express.urlencoded())  // urlencoded data ' older version package parcel
 
-app.get('/api', (req, res) => {
+app.get('/', (req, res) => {
     res.send("Server Running")
 })
 
@@ -40,7 +40,7 @@ app.get("/api/user/:id", (req, res) => {
 // get data
 
 app.post("/api/user", (req, res) => {
-    // console.log(req.body)  // (undefined) error -> bcz server cant be understand which type of data are sending 
+    //  console.log(req.body)  // (undefined) error -> bcz server cant be understand which type of data are sending 
     // res.send(req.body)  
     // res.send("Inserted")
 
@@ -92,4 +92,4 @@ app.put("/api/user", (req, res) => {
 })
 
 
-app.listen(PORT, () => console.log(`server is connected http://localhost:${PORT}/api`))
+app.listen(PORT, () => console.log(`server is connected http://localhost:${PORT}`))
