@@ -1,17 +1,14 @@
 const express = require('express')
+const { default: mongoose } = require('mongoose')
 const app = express()
 
 require('dotenv').config() // Always on the top of declear
 
 const PORT = process.env.PORT || 5000
 
-// method 1
-// const db = require('./config/db')
-// db()
-
-//method 2
-require('./config/db')()
-
+mongoose.connect(process.env.DB_URL)
+    .then(() => { console.log("db connected❤️") })
+    .catch(error => console.log(error));
 
 
 app.get("/", (_, res) => {
