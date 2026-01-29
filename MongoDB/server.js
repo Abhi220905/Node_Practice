@@ -74,5 +74,41 @@ app.get('/api/users', async (req, res) => {
 })
 
 
+/// delete 
+
+app.delete('/api/users/:id', async (req, res) => {
+    // console.log(req.params)
+    const { id } = req.params;
+    await user.findByIdAndDelete(id)
+        .then(() => {
+            res.json({
+                success: true,
+                message: "User has been deleted"
+            })
+        })
+        .catch((err) => {
+            res.json({
+                success: false,
+                message: err.message
+            })
+        })
+})
+
+app.get('/api/users/:id', async (req, res)=>{
+    const records = await user.findById(req.params.id)
+    .then((records) => {
+            res.json({
+                success: true,
+                records : records || "No Records"
+            })
+        })
+        .catch((err) => {
+            res.json({
+                success: false,
+                message: err.message
+            })
+        })
+})
+
 
 app.listen(PORT, () => console.log(`Application running in port number http://localhost:${PORT}`))
