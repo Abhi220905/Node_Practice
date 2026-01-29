@@ -26,7 +26,7 @@ const userSchema = new Schema({
     username: String,
     grid: Number,
     status: Boolean
-})
+}, {timestamps: true})
 
 
 //// table name
@@ -94,12 +94,14 @@ app.delete('/api/users/:id', async (req, res) => {
         })
 })
 
-app.get('/api/users/:id', async (req, res)=>{
+/// single data
+
+app.get('/api/users/:id', async (req, res) => {
     const records = await user.findById(req.params.id)
-    .then((records) => {
+        .then((records) => {
             res.json({
                 success: true,
-                records : records || "No Records"
+                records: records || "No Records"
             })
         })
         .catch((err) => {
@@ -110,5 +112,28 @@ app.get('/api/users/:id', async (req, res)=>{
         })
 })
 
+
+///// update   (put and patch)
+
+app.patch('/api/users/:id', async (req, res) => {
+    console.log(req.params.id)
+    console.log(req.body)
+    const { id } = req.params
+    const { username, grid, status } = req.body
+
+    await user.findByIdAndUpdate(id, { username, grid, status })
+        .then(() => {
+            res.json({
+                success: true,
+                message: "User has been updated"
+            })
+        })
+        .catch((err) => {
+            res.json({
+                success: false,
+                message: err.message
+            })
+        })
+})
 
 app.listen(PORT, () => console.log(`Application running in port number http://localhost:${PORT}`))
