@@ -51,8 +51,21 @@ exports.login = async (req, res) => {
     });
   }
 
+  const payload = {
+    id: existUser._id,
+    email: existUser.email,
+    name: existUser.username,
+  };
+
+  req.session.user = payload;
+
   res.json({
-      success: true,
-      message: "Login Successfully",
-    });
+    success: true,
+    message: "Login Successfully",
+  });
 };
+
+
+exports.getProfile = async (req, res) => {
+  res.json("Get Profiles")
+}
