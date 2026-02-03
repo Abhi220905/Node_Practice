@@ -1,10 +1,8 @@
 const express = require('express')
 const app = express()
-
+const cors = require('cors')
 app.use(express.json())
 app.use(express.urlencoded())
-
-
 
 require('dotenv').config()
 require('./config/db')
@@ -13,6 +11,13 @@ const port = process.env.PORT || 5000
 var cookieSession = require('cookie-session')
 
 
+//// origin can access only mention domain,
+//// cookie can secure data bcz it can be connected in Server 
+
+app.use(cors({
+  origin: ["http://localhost:5173", "http://localhost:5174"],
+  credentials: true
+}))
 
 ////////// public middleware
 app.use(cookieSession({
