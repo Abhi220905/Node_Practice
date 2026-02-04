@@ -5,66 +5,112 @@ const fs = require("fs");
 exports.store = async (req, res) => {
   // console.log(req.body)
   // res.json(req.file.filename)
-  const { b_title, b_cat } = req.body;
-  Blog.create({ b_title, b_cat, b_image: req?.file?.filename })
-    // using chainning operator for the handle error , when the img is not uploading then we will show the error ,
-    // and this error can be handled by using chainning operator like this ( b_image: req?.file?.filename)
-    .then(() => res.json("Data Inserted"))
-    .catch((err) =>
-      res.json({
-        success: false,
-        message: err.message,
-      }),
-    );
+  // using chainning operator for the handle error , when the img is not uploading then we will show the error ,
+  // and this error can be handled by using chainning operator like this ( b_image: req?.file?.filename)
+  try {
+    const { b_title, b_cat } = req.body;
+    Blog.create({ b_title, b_cat, b_image: req?.file?.filename })
+      .then(() => res.json("Data Inserted"))
+      .catch((err) =>
+        res.json({
+          success: false,
+          message: err.message,
+        }),
+      );
+  } catch (error) {
+    res.json({
+      success: false,
+      message: error.message,
+    });
+  }
 };
 
 exports.index = async (req, res) => {
-  const records = await Blog.find();
-  // console.log(records)
-  const newArr = records.map((ele) => {
-    return {
-      ...ele._doc, // to get all the data from the document then we can use ...ele._doc, it's part of mongoose
-      b_image: ele.b_image
-        ? `${process.env.SERVER}/uploads/${ele.b_image}`
-        : `${process.env.DUMMY_IMG_URL}`, // if image is present then we will show the image otherwise we will show the dummy image
-    };
-  });
-  //   console.log(newArr);
-  res.json({
-    success: true,
-    records: newArr.length > 0 ? newArr : [],
-    // records
-  });
+  try {
+    const records = await Blog.find();
+    // console.log(records)
+    const newArr = records.map((ele) => {
+      return {
+        ...ele._doc, // to get all the data from the document then we can use ...ele._doc, it's part of mongoose
+        b_image: ele.b_image
+          ? `${process.env.SERVER}/uploads/${ele.b_image}`
+          : `${process.env.DUMMY_IMG_URL}`, // if image is present then we will show the image otherwise we will show the dummy image
+      };
+    });
+    //   console.log(newArr);
+    res.json({
+      success: true,
+      records: newArr.length > 0 ? newArr : [],
+      // records
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      message: error.message,
+    });
+  }
 };
 
 exports.trash = async (req, res) => {
-  const { id } = req.query;
-  const blog = await Blog.findById(id);
-  const imgPath = path.join(__dirname, `../uploads/${blog?.b_image}`);
-  //   const imgPath = path.resolve(`../uploads/${blog?.b_image}`);
+  try {
+    const { id } = req.query;
+    const blog = await Blog.findById(id);
+    const imgPath = path.join(__dirname, `../uploads/${blog?.b_image}`);
+    //   const imgPath = path.resolve(`../uploads/${blog?.b_image}`);
 
-  if (blog.b_image) {
-    fs.unlink(imgPath, (err) => {
-      if (err) {
-        return res.json({
+    if (blog.b_image) {
+      fs.unlink(imgPath, (err) => {
+        if (err) {
+          return res.json({
+            success: false,
+            message: err.message,
+          });
+        }
+      });
+    }
+
+    Blog.findByIdAndDelete(id)
+      .then(() =>
+        res.json({
+          success: true,
+          message: "Blog has been Deleted",
+        }),
+      )
+      .catch((err) => {
+        res.json({
           success: false,
           message: err.message,
         });
-      }
+      });
+  } catch (err) {
+    res.json({
+      success: false,
+      message: err.message,
     });
   }
+};
 
-  Blog.findByIdAndDelete(id)
-    .then(() =>
-      res.json({
-        success: true,
-        message: "Blog has been Deleted",
-      }),
-    )
-    .catch((err) =>
-      res.json({
-        success: false,
-        message: err.message,
-      }),
-    );
+exports.update = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { b_title, b_cat } = req.body;
+
+    let updateData = { b_title, b_cat };
+
+    if (req.file) {
+      updateData.b_image = req.file.path; // ya full URL
+    }
+
+    await Blog.findByIdAndUpdate(id, updateData);
+
+    res.json({
+      success: true,
+      message: "Blog Updated Successfully",
+    });
+  } catch (err) {
+    res.json({
+      success: false,
+      message: err.message,
+    });
+  }
 };
