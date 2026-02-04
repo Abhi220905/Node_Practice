@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { DateFormat } from "./date";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -109,8 +110,8 @@ const App = () => {
                 <div className="card-body">
                   <h5 className="card-title">{blog.b_title}</h5>
                   <h6 className="card-title">{blog.b_cat}</h6>
-                  <p className="card-text">{blog.createdAt}</p>
-                  <p className="card-text">{blog.updatedAt}</p>
+                  <p className="card-text">{DateFormat(blog.createdAt)}</p>
+                  <p className="card-text">{DateFormat(blog.updatedAt)}</p>
                 </div>
               </div>
             ))}

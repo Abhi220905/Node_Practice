@@ -33,3 +33,10 @@ exports.index = async (req, res) => {
     records: newArr.length > 0 ? newArr : "No Records",
   });
 };
+
+exports.trash = async (req, res) => {
+  const { id } = req.query;
+  Blog.findByIdAndDelete(id).then(() =>
+    res.json({ success: true, message: "Record Deleted" }),
+  );
+};
