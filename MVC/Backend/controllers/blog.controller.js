@@ -1,4 +1,6 @@
 const Blog = require("../models/blog.model");
+const path = require("path");
+const fs = require("fs");
 
 exports.store = async (req, res) => {
   // console.log(req.body)
@@ -27,16 +29,42 @@ exports.index = async (req, res) => {
         : `${process.env.DUMMY_IMG_URL}`, // if image is present then we will show the image otherwise we will show the dummy image
     };
   });
-  console.log(newArr);
+  //   console.log(newArr);
   res.json({
     success: true,
-    records: newArr.length > 0 ? newArr : "No Records",
+    records: newArr.length > 0 ? newArr : [],
+    // records
   });
 };
 
 exports.trash = async (req, res) => {
   const { id } = req.query;
-  Blog.findByIdAndDelete(id).then(() =>
-    res.json({ success: true, message: "Record Deleted" }),
-  );
+  const blog = await Blog.findById(id);
+  const imgPath = path.join(__dirname, `../uploads/${blog?.b_image}`);
+  //   const imgPath = path.resolve(`../uploads/${blog?.b_image}`);
+
+  if (blog.b_image) {
+    fs.unlink(imgPath, (err) => {
+      if (err) {
+        return res.json({
+          success: false,
+          message: err.message,
+        });
+      }
+    });
+  }
+
+  Blog.findByIdAndDelete(id)
+    .then(() =>
+      res.json({
+        success: true,
+        message: "Blog has been Deleted",
+      }),
+    )
+    .catch((err) =>
+      res.json({
+        success: false,
+        message: err.message,
+      }),
+    );
 };

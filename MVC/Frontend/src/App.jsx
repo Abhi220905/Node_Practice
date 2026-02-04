@@ -2,17 +2,25 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { DateFormat } from "./date";
+import { FaTrash } from "react-icons/fa";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
+
   const { register, handleSubmit, reset } = useForm();
+
   async function showApi() {
-    const res = await axios.get("http://localhost:8000/api/blogs");
-    setBlogs(res.data.records);
+    try {
+      const res = await axios.get("http://localhost:8000/api/blogs");
+      setBlogs(res?.data?.records);
+      // console.log(setBlogs)
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {
-    console.log(import.meta.env.VITE_IMAGE_URL);
+    // console.log(import.meta.env.VITE_IMAGE_URL);
     showApi();
   }, []);
 
@@ -47,6 +55,19 @@ const App = () => {
         showApi();
       })
       .catch((err) => console.log(err));
+  }
+
+  async function trash(id) {
+    try {
+      const res = await axios.delete(
+        `http://localhost:8000/api/blogs?id=${id}`,
+      );
+      alert(res.data.message);
+    } catch (error) {
+      console.log(error);
+      alert("Something went wrong");
+    }
+    showApi();
   }
 
   return (
@@ -112,6 +133,12 @@ const App = () => {
                   <h6 className="card-title">{blog.b_cat}</h6>
                   <p className="card-text">{DateFormat(blog.createdAt)}</p>
                   <p className="card-text">{DateFormat(blog.updatedAt)}</p>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => trash(blog._id)}
+                  >
+                    <FaTrash />
+                  </button>
                 </div>
               </div>
             ))}
