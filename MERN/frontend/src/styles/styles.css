@@ -1,0 +1,192 @@
+/* =====================================================
+   GLOBAL THEME VARIABLES (LUXURY EVENT BRAND)
+===================================================== */
+
+:root {
+  --primary-dark: #0F1C2E;     /* Deep Navy */
+  --primary-main: #1F3A5F;     /* Royal Navy */
+  --accent-gold: #C9A24D;      /* Champagne Gold */
+  --background-light: #F8F6F2; /* Ivory */
+  --text-dark: #2B2B2B;        /* Charcoal */
+  --white: #ffffff;
+}
+
+/* =====================================================
+   HEADER / NAVBAR (STATIC PREMIUM)
+===================================================== */
+
+.custom-navbar {
+  background-color: var(--primary-dark);
+  padding: 14px 0;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.35);
+}
+
+/* Logo */
+.logo {
+  height: 55px;
+  margin-right: 12px;
+  border-radius: 50%;
+}
+
+/* Brand Text */
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.brand-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  letter-spacing: 1px;
+}
+
+.brand-subtitle {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.8);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* Nav Links */
+.navbar-nav .nav-link {
+  color: var(--white) !important;
+  font-weight: 500;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+  color: var(--accent-gold) !important;
+}
+
+/* Underline Hover */
+.navbar-nav .nav-link::after {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  background-color: var(--accent-gold);
+  left: 0;
+  bottom: -6px;
+  transition: 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover::after {
+  width: 100%;
+}
+
+/* Login Button (Luxury CTA) */
+.book-btn {
+  background-color: var(--accent-gold);
+  color: var(--primary-dark) !important;
+  font-weight: 600;
+  padding: 8px 22px;
+  border-radius: 30px;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.book-btn:hover {
+  background-color: #b8903d;
+  transform: translateY(-2px);
+}
+
+/* =====================================================
+   FOOTER (PREMIUM STATIC)
+===================================================== */
+
+.epic-footer {
+  background-color: var(--primary-dark);
+  color: var(--background-light);
+  padding: 70px 0 25px;
+}
+
+/* Brand */
+.footer-brand {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  margin-bottom: 15px;
+}
+
+.footer-text {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.6;
+}
+
+/* Titles */
+.footer-title {
+  color: var(--accent-gold);
+  margin-bottom: 15px;
+  font-weight: 600;
+  position: relative;
+}
+
+.footer-title::after {
+  content: "";
+  width: 40px;
+  height: 2px;
+  background-color: var(--accent-gold);
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+}
+
+/* Links */
+.footer-links {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links li {
+  margin-bottom: 10px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.85);
+  transition: all 0.3s ease;
+}
+
+.footer-links li:hover {
+  color: var(--accent-gold);
+  transform: translateX(4px);
+}
+
+/* Contact */
+.footer-contact {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Social Icons */
+.footer-social {
+  display: flex;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.footer-social svg {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.footer-social svg:hover {
+  color: var(--accent-gold);
+  transform: scale(1.2);
+}
+
+/* Bottom */
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  margin-top: 40px;
+  padding-top: 15px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.65);
+}
