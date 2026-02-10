@@ -13,7 +13,6 @@ app.use('/uploads', express.static('uploads'))
 
 app.use(cors({
     origin: [process.env.COR_URL || "http://localhost:5173" || "http://localhost:5174"]   // access only this domain
-
 }))
 
 

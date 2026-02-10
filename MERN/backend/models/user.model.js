@@ -13,7 +13,7 @@ const userSchema = new Schema(
     },
     mobile: {
       ...commonString,
-      unique: [true, "Mobile Number Already Exist!!"],
+      unique: [true, "Mobile Number Already Exist!!"],  
     },
     password: commonString,
   },

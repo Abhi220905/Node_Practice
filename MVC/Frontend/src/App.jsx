@@ -2,10 +2,11 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { DateFormat } from "./date";
-import { FaTrash } from "react-icons/fa";
+import { FaEdit, FaTrash } from "react-icons/fa";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
+  const [editBlog, setEditBlog] = useState(null);
 
   const { register, handleSubmit, reset } = useForm();
 
@@ -40,6 +41,7 @@ const App = () => {
     // this formData object will be sent to the backend
     // using axios post method
 
+    
     const formData = new FormData();
 
     formData.append("b_title", data.b_title);
@@ -52,8 +54,10 @@ const App = () => {
         console.log(res.data);
         reset();
         showApi();
+        
       })
       .catch((err) => console.log(err));
+
   }
 
   async function trash(id) {
@@ -67,6 +71,30 @@ const App = () => {
       alert("Something went wrong");
     }
     showApi();
+  }
+
+  async function updateData(data) {
+    try {
+      const formData = new FormData();
+      formData.append("b_title", data.b_title);
+      formData.append("b_cat", data.b_cat);
+
+      if (data.b_image && data.b_image.length > 0) {
+        formData.append("b_image", data.b_image[0]);
+      }
+
+      const res = await axios.put(
+        `http://localhost:8000/api/blogs/${editBlog._id}`,
+        formData,
+      );
+
+      alert(res.data.message);
+      setEditBlog(null);
+      reset();
+      showApi();
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   return (
@@ -137,6 +165,18 @@ const App = () => {
                     onClick={() => trash(blog._id)}
                   >
                     <FaTrash />
+                  </button>
+                  <button
+                    className="btn btn-warning me-2"
+                    onClick={() => {
+                      setEditBlog(blog);
+                      reset({
+                        b_title: blog.b_title,
+                        b_cat: blog.b_cat,
+                      });
+                    }}
+                  >
+                    <FaEdit />
                   </button>
                 </div>
               </div>
