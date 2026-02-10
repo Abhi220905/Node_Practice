@@ -1,12 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Header from "./layout/Header";
+
 import Home from "./pages/Home";
 import Events from "./pages/Events";
 import Gallery from "./pages/Gallery";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
-import Footer from "./layout/Footer";
 import Login from "./pages/Login";
+import Header from "./component/Header";
+import Footer from "./component/Footer";
 
 function App() {
   return (
