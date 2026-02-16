@@ -4,7 +4,7 @@ const { plainToHash, hashToPlain } = require("../utils/password");
 exports.signup = async (req, res) => {
   console.log(req.body);
   const { email, password, username, mobile } = req.body;
-
+  console.log(req.body)
   const hash_pass = await plainToHash(password);
   // res.json(hash_pass)
 

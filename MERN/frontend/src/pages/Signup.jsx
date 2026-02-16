@@ -1,21 +1,21 @@
-import React from "react";
-import { Container, Form, Button } from "react-bootstrap";
+import React, { use } from "react";
+import { Container, Form, Button, Nav } from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import { Navigate, useNavigate } from "react-router-dom";
 import "../styles/login.css";
 import Api from "../layout/Api";
-import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Signup = () => {
   const { register, handleSubmit, reset } = useForm();
-  const navigate = useNavigate();
+const navigate = useNavigate()
   const onSubmit = async (data) => {
     try {
-      const res = await Api.post("/api/user/login", data);
+      const res = await Api.post("/api/user/signup", data);
 
       if (res.data.success) {
         alert(res.data.message);
         reset();
-        navigate("/");
+        navigate("/login");
       } else {
         alert(res.data.message);
       }
@@ -29,21 +29,31 @@ const Login = () => {
     <section className="login-page">
       <Container>
         <div className="login-card">
-          {/* LEFT SIDE PANEL */}
+
+          {/* LEFT PANEL */}
           <div className="login-image">
             <div className="image-overlay">
               <h2>EpicAura Event Management</h2>
-              <p>Crafting unforgettable event experiences</p>
+              <p>Start planning premium events with us</p>
             </div>
           </div>
 
-          {/* RIGHT SIDE LOGIN FORM */}
+          {/* RIGHT PANEL */}
           <div className="login-form-wrapper">
             <div className="login-panel">
-              <h3>Welcome Back</h3>
-              <p>Login to manage your events</p>
+              <h3>Create Account</h3>
+              <p>Join us to manage your events</p>
 
               <Form onSubmit={handleSubmit(onSubmit)}>
+
+                <Form.Group className="mb-3">
+                  <Form.Control
+                    type="text"
+                    placeholder="Full Name"
+                    {...register("name", { required: true })}
+                  />
+                </Form.Group>
+
                 <Form.Group className="mb-3">
                   <Form.Control
                     type="email"
@@ -61,22 +71,20 @@ const Login = () => {
                 </Form.Group>
 
                 <Button className="btn book-btn w-100" type="submit">
-                  Login
+                  Register
                 </Button>
               </Form>
 
               <span className="switch-text mt-3">
-                New user?{" "}
-                <a href="/signup" className="text-decoration-none text-primary">
-                  Create Account
-                </a>
+                Already have an account? <a href="/login" className="text-decoration-none text-primary">Login</a>
               </span>
             </div>
           </div>
+
         </div>
       </Container>
     </section>
   );
 };
 
-export default Login;
+export default Signup;
