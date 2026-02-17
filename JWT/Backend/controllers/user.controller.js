@@ -183,3 +183,35 @@ exports.verifyOtp = async (req, res) => {
       });
     });
 };
+
+
+exports.changePassword = async (req, res) => {
+  const {id} = req.user
+  const { old_password, new_password } = req.body;
+  const user = await User.findById(id)
+  const hash_pass = user.password
+  const match = await hashToPlain(old_password, hash_pass);
+  // res.json(match)
+  if(!match){
+    return res.json({
+      success: false,
+      message: "Old password not match"
+    })
+  }
+
+  const hashPass = await plainToHash(new_password)
+  // res.json(hashPass)
+  await User.findByIdAndUpdate(id, {password: hashPass})
+    .then(() => {
+      res.json({
+        success: true,
+        message: "Password changed successfully"
+      })
+    })
+    .catch((error) => {
+      res.json({
+        success: false,
+        message: error.message
+      })
+    })
+}
