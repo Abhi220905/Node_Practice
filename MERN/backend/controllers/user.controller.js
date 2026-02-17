@@ -4,7 +4,7 @@ const { plainToHash, hashToPlain } = require("../utils/password");
 exports.signup = async (req, res) => {
   console.log(req.body);
   const { email, password, username, mobile } = req.body;
-  console.log(req.body)
+  console.log(req.body);
   const hash_pass = await plainToHash(password);
   // res.json(hash_pass)
 
@@ -65,7 +65,35 @@ exports.login = async (req, res) => {
   });
 };
 
-
 exports.getProfile = async (req, res) => {
-  res.json("Get Profiles")
-}
+  res.json("Get Profiles");
+};
+
+exports.checkAuth = async (req, res) => {
+  const token = req.session?.user;
+  // res.json(token);
+  if (!token) {
+    return res.json({
+      success: false,
+      message: "Unauthorized",
+    });
+  }
+  res.json({
+    success: true,
+    message: "Authorized",
+    user: token,
+  });
+};
+
+exports.removeCookie = async (req, res) => {
+  const token = req.session?.user;
+  // res.json(token);
+  if (token) {
+    req.session = null;
+    return res.json({
+      success: true,
+      token: null,
+      message: "User already logged out",
+    });
+  }
+};
