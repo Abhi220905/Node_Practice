@@ -60,6 +60,7 @@ exports.login = async (req, res) => {
       id: existUser._id,
       email: existUser.email,
       name: existUser.username,
+      role_id: existUser.role_id,
     };
 
     const token = jwt.sign(payload, process.env.SECRET_KEY, {
@@ -67,6 +68,7 @@ exports.login = async (req, res) => {
     });
 
     // res.json(token)
+  
     // req.session.user = payload;
 
     // res.json({
