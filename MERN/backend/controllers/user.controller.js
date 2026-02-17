@@ -1,5 +1,8 @@
 const User = require("../models/user.model");
 const { plainToHash, hashToPlain } = require("../utils/password");
+const sendMailer = require("../config/mailer");
+const otpGenerator = require("otp-generator");
+const { forgotPasswordTemplate } = require("../utils/mailFormat");
 
 exports.signup = async (req, res) => {
   console.log(req.body);
@@ -96,4 +99,34 @@ exports.removeCookie = async (req, res) => {
       message: "User already logged out",
     });
   }
+};
+
+exports.sendOtp = async (req, res) => {
+  const { email } = req.body;
+  const existUser = await User.findOne({ email });
+  if (!existUser) {
+    return res.json({
+      success: false,
+      message: "Email ID Not exist",
+    });
+  }
+
+  const otp = otpGenerator.generate(6, {
+    upperCaseAlphabets: false,
+    specialChars: false,
+    lowerCaseAlphabets: false,
+  });
+  // res.json(otp)
+  // console.log(req.body)
+
+  await sendMailer(
+    existUser.email,
+    "Your OTP for password reset",
+    forgotPasswordTemplate(otp),
+  );
+  res.json({
+    success: true,
+    message: "OTP sent to email",
+    otp,
+  });
 };
