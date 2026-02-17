@@ -36,6 +36,7 @@ app.get('/', (req, res) => res.send('Hello World!'))
 const userRouter = require('./routes/user.routes')
 const categoryRouter = require('./routes/category.routes')
 const subCategoryRouter = require('./routes/subCategory.routes')
+const productRouter = require('./routes/product.routes')
 
 
 //////////// Routing
@@ -43,5 +44,6 @@ const subCategoryRouter = require('./routes/subCategory.routes')
 app.use("/api/user", userRouter)
 app.use("/api/category", categoryRouter)
 app.use("/api/subcategory", subCategoryRouter)
+app.use("/api/product", productRouter)
 
 app.listen(port, () => console.log(`Example app listening on port http://localhost:${port}`))
