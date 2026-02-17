@@ -34,11 +34,12 @@ app.get('/', (req, res) => res.send('Hello World!'))
 // import router files
 
 const userRouter = require('./routes/user.routes')
+const categoryRouter = require('./routes/category.routes')
 
 
 //////////// Routing
 
 app.use("/api/user", userRouter)
-
+app.use("/api/category", categoryRouter)
 
 app.listen(port, () => console.log(`Example app listening on port http://localhost:${port}`))
