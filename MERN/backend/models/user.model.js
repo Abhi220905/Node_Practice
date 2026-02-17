@@ -16,6 +16,7 @@ const userSchema = new Schema(
       unique: [true, "Mobile Number Already Exist!!"],  
     },
     password: commonString,
+    otp: String,
   },
   { timestamps: true },
 );

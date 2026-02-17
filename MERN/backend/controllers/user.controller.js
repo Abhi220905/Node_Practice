@@ -119,6 +119,7 @@ exports.sendOtp = async (req, res) => {
   // res.json(otp)
   // console.log(req.body)
 
+  await User.findByIdAndUpdate(existUser._id, { otp });
   await sendMailer(
     existUser.email,
     "Your OTP for password reset",
@@ -129,4 +130,34 @@ exports.sendOtp = async (req, res) => {
     message: "OTP sent to email",
     otp,
   });
+};
+
+exports.verifyOtp = async (req, res) => {
+  const { password, otp } = req.body;
+  const otpMatch = await User.findOne({ otp });
+  // res.json(otpMatch);
+  if (!otpMatch) {
+    return res.json({
+      success: false,
+      message: "Invalid OTP",
+    });
+  }
+  const hash_pass = await plainToHash(password);
+  // res.json(hash_pass);
+  await User.findByIdAndUpdate(otpMatch._id, {
+    password: hash_pass,
+    otp: null,
+  })
+    .then(() => {
+      res.json({
+        success: true,
+        message: "Password updated successfully",
+      });
+    })
+    .catch((error) => {
+      res.json({
+        success: false,
+        message: error.message,
+      });
+    });
 };
