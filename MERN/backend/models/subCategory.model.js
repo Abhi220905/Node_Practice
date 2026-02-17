@@ -3,11 +3,16 @@ const { commonString } = require("../utils/common");
 
 ////////// Create schema
 
-const categorySchema = new Schema(
+const subCategorySchema = new Schema(
   {
-    category_name: {
+    category: {
+      //   ...commonString,
+      type: Schema.Types.ObjectId,
+      ref: "Category",
+    },
+    sub_cat_name: {
       ...commonString,
-      unique: [true, "Category Already Exist!!"],
+      unique: [true, "Sub Category Already Exist!!"],
     },
     status: {
       ...commonString,
@@ -20,6 +25,6 @@ const categorySchema = new Schema(
 
 //////////////// create table
 
-const Category = model("Category", categorySchema);
+const SubCategory = model("SubCategory", subCategorySchema);
 
-module.exports = Category;
+module.exports = SubCategory;

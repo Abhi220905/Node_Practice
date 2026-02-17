@@ -1,8 +1,8 @@
 const Category = require("../models/category.model");
 
 exports.store = async (req, res) => {
-  const { name } = req.body;
-  await Category.create({ name })
+  const { category_name } = req.body;
+  await Category.create({ category_name })
     .then(() => {
       res.json({
         success: true,
@@ -18,18 +18,18 @@ exports.store = async (req, res) => {
 };
 
 exports.index = async (req, res) => {
-    res.json("get API for category" )
-//   await Category.find()
-//     .then((data) => {
-//       res.json({
-//         success: true,
-//         data,
-//       });
-//     })
-//     .catch((error) => {
-//       res.json({
-//         success: false,
-//         message: error.message,
-//       });
-//     });
+  res.json("get API for category");
+  await Category.find()
+    .then((data) => {
+      res.json({
+        success: true,
+        data,
+      });
+    })
+    .catch((error) => {
+      res.json({
+        success: false,
+        message: error.message,
+      });
+    });
 };
