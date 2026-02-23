@@ -1,0 +1,15 @@
+.min-h-screen {
+  min-height: 100vh;
+}
+
+.bg-gradient-to-br {
+  background: linear-gradient(135deg, #F3F4F6 0%, #E0E7FF 100%);
+}
+
+.from-blue-50 {
+  --tw-gradient-from: #EFF6FF;
+}
+
+.to-indigo-100 {
+  --tw-gradient-to: #E0E7FF;
+}
